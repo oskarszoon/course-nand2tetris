@@ -11,10 +11,24 @@
  *                {0, 0, 0, in} if sel == 11
  */
 
+// fully written out, but should try and use dmux
+// Not (in=sel[0], out=notSel0);
+// Not (in=sel[1], out=notSel1);
+// And (a=notSel0, b=notSel1, out=andA);
+// And (a=sel[0], b=notSel1, out=andB);
+// And (a=notSel0, b=sel[1], out=andC);
+// And (a=sel[0], b=sel[1], out=andD);
+// And (a=in, b=andA, out=a);
+// And (a=in, b=andB, out=b);
+// And (a=in, b=andC, out=c);
+// And (a=in, b=andD, out=d);
+
 CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
 
     PARTS:
-    // Put your code here:
+    DMux (in=in, sel=sel[1], a=out1, b=out2);
+    DMux (in=out1, sel=sel[0], a=a, b=b);
+    DMux (in=out2, sel=sel[0], a=c, b=d);
 }
